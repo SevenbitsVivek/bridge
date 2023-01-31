@@ -17,8 +17,8 @@ const bridgeApi = async () => {
         // const wallet3 = new ethers.Wallet(privateKey, polygonProvider);
         const wallet3 = new ethers.Wallet("0x0aed729fd357dc5fc2e5823f8a9a280204f3e1fbdf7ed3947e281aaef0e45457", polygonProvider);
 
-        const NftBridgeEthContractAddress = "0xACb4611ba10ED2CE99C9Fe59Dd1144b06A43d19e";
-        const NftBridgeBscContractAddress = "0x54a05B7d5D341A74EE3d3Ada3f89089b849E3c3d";
+        const NftBridgeEthContractAddress = "0x8eD50Cd9d0b74c5Ddf9F2fd18bb1C3b5Aca6A498";
+        const NftBridgeBscContractAddress = "0x9358b3BD8956dD404367AB4f48242b96e648174f";
         // const NftBridgePolygonContractAddress = "0x5218C6D3e94156dC2e9986e328e785D3C3686AC5";
         const NftBridgePolygonContractAddress = "0xE7f1BEfeafD7FcD6f2478BdaBEbE1429aAfC6905";
 
@@ -44,9 +44,10 @@ const bridgeApi = async () => {
             wallet3
         );
 
-        nftBridgeEth.on("LockedNft", (from, uri, tokenId, sourceChain, destinationChain, event) => {
+        nftBridgeEth.on("LockedNft", (from, to, uri, tokenId, sourceChain, destinationChain, event) => {
             let NftTransferedEvent = {
                 from: from,
+                to: to,
                 uri: uri,
                 tokenId: tokenId.toString(),
                 sourceChain: sourceChain,
@@ -62,9 +63,10 @@ const bridgeApi = async () => {
             }
         })
 
-        nftBridgeBsc.on("LockedNft", (from, uri, tokenId, sourceChain, destinationChain, event) => {
+        nftBridgeBsc.on("LockedNft", (from, to, uri, tokenId, sourceChain, destinationChain, event) => {
             let NftTransferedEvent = {
                 from: from,
+                to: to,
                 uri: uri,
                 tokenId: tokenId.toString(),
                 sourceChain: sourceChain,
@@ -80,9 +82,10 @@ const bridgeApi = async () => {
             }
         })
 
-        nftBridgePolygon.on("LockedNft", (from, uri, tokenId, sourceChain, destinationChain, event) => {
+        nftBridgePolygon.on("LockedNft", (from, to, uri, tokenId, sourceChain, destinationChain, event) => {
             let NftTransferedEvent = {
                 from: from,
+                to: to,
                 uri: uri,
                 tokenId: tokenId.toString(),
                 sourceChain: sourceChain,

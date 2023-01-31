@@ -15,7 +15,7 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
     enum DestinationChain{ ETH, BSC, POLYGON }
 
     event NftTransferedToDestinationChain(address _to, uint256 indexed _tokenId, string _uri);
-    event LockedNft(address _from, string _uri, uint256 _tokenId, SourceChain _sourceChain, DestinationChain _destinationChain);
+    event LockedNft(address _from, address _to, string _uri, uint256 _tokenId, SourceChain _sourceChain, DestinationChain _destinationChain);
 
     mapping(bytes => bool) private signatureUsed;
 
@@ -25,7 +25,7 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
         SourceChain sourceChain,
         DestinationChain destinationChain,
         uint256 tokenId,
-        string memory uri,
+        address tokenAddress,
         bytes32 hash,
         bytes memory signature
     ) external nonReentrant {
@@ -35,9 +35,11 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
             "Address is not authorized"
         );
         require(!signatureUsed[signature], "Already signature used");
-        safeMint(msg.sender, tokenId, uri);
-        emit LockedNft(msg.sender, tokenURI(tokenId), tokenId, sourceChain, destinationChain);
-        _burn(tokenId);
+        ERC721 token;
+        token = ERC721(tokenAddress);
+        require(token.ownerOf(tokenId) == msg.sender, "Only the owner can lock the NFT");
+        ERC721(tokenAddress).transferFrom(msg.sender, address(this), tokenId);
+        emit LockedNft(msg.sender, address(this), token.tokenURI(tokenId), tokenId, sourceChain, destinationChain);
         signatureUsed[signature] = true;
     }
 
@@ -81,5 +83,11 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
             abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)
         );
         return ECDSA.recover(messageDigest, signature);
+    }
+
+    function _exists(uint256 tokenId) internal view override returns (bool) {
+        ERC721 token;
+        token = ERC721(0xa131AD247055FD2e2aA8b156A11bdEc81b9eAD95);
+        return token.ownerOf(tokenId) != address(0);
     }
 }

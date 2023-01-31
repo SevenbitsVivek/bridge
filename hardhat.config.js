@@ -34,12 +34,12 @@ module.exports = {
 
   etherscan: {
     // polygon apiKey
-    apiKey: "61NXGEUMZJGEXU5ZTZQN8ZGHRBC8PAVSFN"
-    // apiKey: {
-    //   bscTestnet: "7FH7WAR3SHRS7UDI2YZQWVR5F1SJ3PJBI2",
-    //   goerli: "JB7KZVSGD7Z4AGJGEYITX4WY1W5V4I5D1K",
-    //   // mainnet: "JB7KZVSGD7Z4AGJGEYITX4WY1W5V4I5D1K"
-    // }
+    // apiKey: "61NXGEUMZJGEXU5ZTZQN8ZGHRBC8PAVSFN"
+    apiKey: {
+      bscTestnet: "7FH7WAR3SHRS7UDI2YZQWVR5F1SJ3PJBI2",
+      goerli: "JB7KZVSGD7Z4AGJGEYITX4WY1W5V4I5D1K",
+      // mainnet: "JB7KZVSGD7Z4AGJGEYITX4WY1W5V4I5D1K"
+    }
   },
   settings: {
     optimizer: {
