@@ -9,15 +9,16 @@ const bridgeApi = async () => {
         const bscProvider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-2-s3.binance.org:8545/');
         const polygonProvider = new ethers.providers.JsonRpcProvider('https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78');
 
-        const privateKey = "de3498d1ef1ee0f3afd9ce6868f9912e52bbac7c8cf6bc43e169bbb80a70bc86";
+        const privateKey1 = "c244b6e8ae351e71fa353515c55a4e0be82fb5bf7186c18419f89421805f74b7";
+        const privateKey2 = "de3498d1ef1ee0f3afd9ce6868f9912e52bbac7c8cf6bc43e169bbb80a70bc86";
 
-        const wallet1 = new ethers.Wallet(privateKey, ethProvider);
-        const wallet2 = new ethers.Wallet(privateKey, bscProvider);
-        const wallet3 = new ethers.Wallet(privateKey, polygonProvider);
+        const wallet1 = new ethers.Wallet(privateKey1, ethProvider);
+        const wallet2 = new ethers.Wallet(privateKey1, bscProvider);
+        const wallet3 = new ethers.Wallet(privateKey2, polygonProvider);
 
-        const BridgeEthContractAddress = "0x1F40e79eBcd57CB9A8141eEE5e844418234e0562";
-        const BridgeBscContractAddress = "0xD1505a5762BcA8bde741641B9d33866a5241E333";
-        const BridgePolygonContractAddress = "0x013EE7B37b3282D8050843f4d0F0b6695b25FD0F";
+        const BridgeEthContractAddress = "0x78A7f112242f4Ec774A89aC0C988B24DAeddB361";
+        const BridgeBscContractAddress = "0x112318b7FdC70DBcD0c97ec061D62d970431DEFa";
+        const BridgePolygonContractAddress = "0xFB235f1e73fd7090B73c154D33868077fC0f7927";
 
         console.log("wallet1.address ===> ", wallet1.address)
         console.log("wallet2.address ===> ", wallet2.address)

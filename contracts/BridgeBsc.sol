@@ -6,9 +6,10 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract BridgeBsc is Ownable, ReentrancyGuard {
+contract BridgeBsc is Ownable, Pausable, ReentrancyGuard {
     uint256 contractBalance;
     uint256 smartContractFees = 2;
 
@@ -46,10 +47,10 @@ contract BridgeBsc is Ownable, ReentrancyGuard {
         uint256 value,
         bytes32 hash,
         bytes memory signature
-    ) external payable nonReentrant {
+    ) external payable whenNotPaused nonReentrant {
         require(msg.value != 0, "Insufficient amount");
         require(sourceChain == SourceChain.BSC && destinationChain != DestinationChain.BSC, "Invalid chain");
-        require(tokensAvailableFromSourceChain != SourceChainTokensAvailable.TOKEN && tokensAvailableFromSourceChain != SourceChainTokensAvailable.ETH && tokensAvailableFromDestinationChain != DestinationChainTokensAvailable.BNB, "Invalid source token");
+        require(tokensAvailableFromSourceChain != SourceChainTokensAvailable.TOKEN && tokensAvailableFromSourceChain != SourceChainTokensAvailable.ETH && tokensAvailableFromDestinationChain != DestinationChainTokensAvailable.BNB, "Invalid token");
         require(msg.value == value, "Value should be match");
         require(
             recoverSigner(hash, signature) == owner(),
@@ -69,7 +70,7 @@ contract BridgeBsc is Ownable, ReentrancyGuard {
         uint256 amount,
         bytes32 hash,
         bytes memory signature
-    ) external {
+    ) external whenNotPaused nonReentrant{
         require(amount != 0, "Insufficient amount");
         require(sourceChain == SourceChain.BSC && destinationChain != DestinationChain.BSC, "Invalid chain");
         require(tokensAvailableFromSourceChain != SourceChainTokensAvailable.ETH && tokensAvailableFromSourceChain != SourceChainTokensAvailable.BNB && tokensAvailableFromDestinationChain != DestinationChainTokensAvailable.ETH, "Invalid token");
@@ -107,7 +108,7 @@ contract BridgeBsc is Ownable, ReentrancyGuard {
     function transferBnb(
         address recipient,
         uint256 value
-    ) external onlyOwner nonReentrant {
+    ) external onlyOwner whenNotPaused nonReentrant {
         require(recipient != address(0), "Address cannot be 0");
         require(value != 0, "Insufficient amount");
         uint smartContractFeesForBnb = (value * smartContractFees) / 100;
@@ -119,7 +120,7 @@ contract BridgeBsc is Ownable, ReentrancyGuard {
         address tokenAddress,
         address recipient,
         uint256 amount
-    ) external onlyOwner{
+    ) external onlyOwner whenNotPaused nonReentrant {
         IERC20 token;
         token = IERC20(tokenAddress);
         require(tokenAddress != address(0), "Address cannot be zero");
@@ -135,7 +136,7 @@ contract BridgeBsc is Ownable, ReentrancyGuard {
 
     function lockBnbToContract(
         uint256 value
-    ) external payable onlyOwner nonReentrant {
+    ) external payable onlyOwner whenNotPaused nonReentrant {
         require(msg.value != 0, "Insufficient amount");
         require(msg.value == value, "Value should be match");
     }
@@ -143,7 +144,7 @@ contract BridgeBsc is Ownable, ReentrancyGuard {
     function lockTokenToContract(
         address tokenAddress,
         uint256 amount
-    ) external onlyOwner{
+    ) external onlyOwner whenNotPaused nonReentrant {
         IERC20 token;
         token = IERC20(tokenAddress);
         require(tokenAddress != address(0), "Address cannot be zero");
@@ -155,7 +156,32 @@ contract BridgeBsc is Ownable, ReentrancyGuard {
         );
     }
 
-    function withdraw(address payable recipient) external onlyOwner {
+    function transferTokenBackToUser(
+        address tokenAddress,
+        address recipient,
+        uint256 amount
+    ) external onlyOwner nonReentrant {
+        require(amount != 0, "Insufficient amount");
+        require(tokenAddress != address(0), "Address cannot be zero");
+        IERC20 token;
+        token = IERC20(tokenAddress);
+        SafeERC20.safeTransfer(
+            token,
+            recipient,
+            amount
+        );
+    }
+
+    function transferBscBackToUser(
+        address recipient,
+        uint256 value
+    ) external onlyOwner nonReentrant {
+        require(recipient != address(0), "Address cannot be zero");
+        require(value != 0, "Insufficient amount");
+        payable(recipient).transfer(value);
+    }
+
+    function withdraw(address payable recipient) external onlyOwner nonReentrant {
         require(recipient != address(0), "Address cannot be zero");
         recipient.transfer(address(this).balance);
     }
@@ -163,6 +189,7 @@ contract BridgeBsc is Ownable, ReentrancyGuard {
     function withdrawToken(address tokenAddress, address recipient)
         external
         onlyOwner
+        nonReentrant
     {
         require(recipient != address(0), "Address cannot be zero");
         IERC20 token;
@@ -189,6 +216,14 @@ contract BridgeBsc is Ownable, ReentrancyGuard {
             abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)
         );
         return ECDSA.recover(messageDigest, signature);
+    }
+
+    function pause() external onlyOwner {
+        _pause();
+    }
+
+    function unpause() external onlyOwner {
+        _unpause();
     }
 
     function getTokenBalance(address tokenAddress, address recipient)

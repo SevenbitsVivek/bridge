@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/sevenbits/7 bits/daap's/ether & token bridge/contracts/BridgeBsc.sol": {
-      "lastModificationDate": 1675093175740,
-      "contentHash": "1966d916a257cd593a411a018ad09e29",
+      "lastModificationDate": 1675260640240,
+      "contentHash": "2ce9c98d260d22735a7a294e3c7ff3f8",
       "sourceName": "contracts/BridgeBsc.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -33,6 +33,7 @@
         "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "@openzeppelin/contracts/security/ReentrancyGuard.sol",
         "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol",
+        "@openzeppelin/contracts/security/Pausable.sol",
         "@openzeppelin/contracts/access/Ownable.sol"
       ],
       "versionPragmas": [
@@ -479,8 +480,8 @@
       ]
     },
     "/home/sevenbits/7 bits/daap's/ether & token bridge/contracts/BridgePolygon.sol": {
-      "lastModificationDate": 1675093175740,
-      "contentHash": "4649b917351a66a2c2864aeb7285ce8a",
+      "lastModificationDate": 1675260683820,
+      "contentHash": "cdea713d717d2798f65e53febaf8c32d",
       "sourceName": "contracts/BridgePolygon.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -510,6 +511,7 @@
         "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "@openzeppelin/contracts/security/ReentrancyGuard.sol",
         "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol",
+        "@openzeppelin/contracts/security/Pausable.sol",
         "@openzeppelin/contracts/access/Ownable.sol",
         "hardhat/console.sol"
       ],
@@ -556,8 +558,8 @@
       ]
     },
     "/home/sevenbits/7 bits/daap's/ether & token bridge/contracts/BridgeEth.sol": {
-      "lastModificationDate": 1675093175740,
-      "contentHash": "6caed071e33124bfe8563df1bd596ed5",
+      "lastModificationDate": 1675260671608,
+      "contentHash": "4e89f85fb4b114dded8d9d49cee27d5c",
       "sourceName": "contracts/BridgeEth.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -587,6 +589,7 @@
         "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "@openzeppelin/contracts/security/ReentrancyGuard.sol",
         "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol",
+        "@openzeppelin/contracts/security/Pausable.sol",
         "@openzeppelin/contracts/access/Ownable.sol",
         "hardhat/console.sol"
       ],
@@ -632,6 +635,43 @@
       ],
       "artifacts": [
         "token"
+      ]
+    },
+    "/home/sevenbits/7 bits/daap's/ether & token bridge/node_modules/@openzeppelin/contracts/security/Pausable.sol": {
+      "lastModificationDate": 1675093174464,
+      "contentHash": "25c8108f36fdd472bc78d4c4af240c11",
+      "sourceName": "@openzeppelin/contracts/security/Pausable.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Pausable"
       ]
     }
   }

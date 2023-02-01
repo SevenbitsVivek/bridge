@@ -10,13 +10,13 @@ module.exports = {
     testnet: {
       url: "https://data-seed-prebsc-2-s3.binance.org:8545/",
       chainId: 97,
-      accounts: ['de3498d1ef1ee0f3afd9ce6868f9912e52bbac7c8cf6bc43e169bbb80a70bc86']
+      accounts: ['c244b6e8ae351e71fa353515c55a4e0be82fb5bf7186c18419f89421805f74b7']
     },
     //Goerli Testnet
     goerli: {
       url: `https://goerli.infura.io/v3/681d784bc2db408b8aa49ec6b887d47a`,
       gas: 300000000,
-      accounts: ['de3498d1ef1ee0f3afd9ce6868f9912e52bbac7c8cf6bc43e169bbb80a70bc86'],
+      accounts: ['c244b6e8ae351e71fa353515c55a4e0be82fb5bf7186c18419f89421805f74b7'],
     },
     //Polygon Testnet
     matic: {
