@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/sevenbits/7 bits/daap's/nft bridge/contracts/NftBridgeBsc.sol": {
-      "lastModificationDate": 1675256418696,
-      "contentHash": "24e4933b49a24b61f48bc683de73d024",
+      "lastModificationDate": 1675261833972,
+      "contentHash": "dce8393d41ac22f9d565a59d5f216616",
       "sourceName": "contracts/NftBridgeBsc.sol",
       "solcConfig": {
         "version": "0.8.7",
@@ -34,6 +34,7 @@
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
         "@openzeppelin/contracts/token/ERC721/IERC721.sol",
         "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        "@openzeppelin/contracts/security/Pausable.sol",
         "@openzeppelin/contracts/access/Ownable.sol",
         "@openzeppelin/contracts/utils/Counters.sol",
         "hardhat/console.sol"
@@ -593,8 +594,8 @@
       ]
     },
     "/home/sevenbits/7 bits/daap's/nft bridge/contracts/NftBridgePolygon.sol": {
-      "lastModificationDate": 1675256442212,
-      "contentHash": "9d8ab204b8c3779cc72fbb5e95fede59",
+      "lastModificationDate": 1675261847340,
+      "contentHash": "1c4898cbc6fb003e92023f3962e96bf2",
       "sourceName": "contracts/NftBridgePolygon.sol",
       "solcConfig": {
         "version": "0.8.7",
@@ -625,6 +626,7 @@
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
         "@openzeppelin/contracts/token/ERC721/IERC721.sol",
         "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        "@openzeppelin/contracts/security/Pausable.sol",
         "@openzeppelin/contracts/access/Ownable.sol",
         "@openzeppelin/contracts/utils/Counters.sol",
         "hardhat/console.sol"
@@ -637,8 +639,8 @@
       ]
     },
     "/home/sevenbits/7 bits/daap's/nft bridge/contracts/NftBridgeEth.sol": {
-      "lastModificationDate": 1675256429132,
-      "contentHash": "f96a0808dcfa66687f567b7669e94b0a",
+      "lastModificationDate": 1675261840888,
+      "contentHash": "87d3a4c0c8dee79e8b6d731359891895",
       "sourceName": "contracts/NftBridgeEth.sol",
       "solcConfig": {
         "version": "0.8.7",
@@ -669,6 +671,7 @@
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
         "@openzeppelin/contracts/token/ERC721/IERC721.sol",
         "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        "@openzeppelin/contracts/security/Pausable.sol",
         "@openzeppelin/contracts/access/Ownable.sol",
         "@openzeppelin/contracts/utils/Counters.sol",
         "hardhat/console.sol"
@@ -860,6 +863,43 @@
       ],
       "artifacts": [
         "IERC20Permit"
+      ]
+    },
+    "/home/sevenbits/7 bits/daap's/nft bridge/node_modules/@openzeppelin/contracts/security/Pausable.sol": {
+      "lastModificationDate": 1675093907744,
+      "contentHash": "25c8108f36fdd472bc78d4c4af240c11",
+      "sourceName": "@openzeppelin/contracts/security/Pausable.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Pausable"
       ]
     }
   }

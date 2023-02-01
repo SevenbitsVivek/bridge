@@ -18,9 +18,9 @@ const bridgeApi = async () => {
         const wallet3 = new ethers.Wallet(privateKey2, polygonProvider);
         // const wallet3 = new ethers.Wallet("0x0aed729fd357dc5fc2e5823f8a9a280204f3e1fbdf7ed3947e281aaef0e45457", polygonProvider);
 
-        const NftBridgeEthContractAddress = "0x03235Bd3859D758B11549977A9D81771311a8f08";
-        const NftBridgeBscContractAddress = "0xa153DE1FFeAfef5ADe758d0e268247da9BDFb697";
-        const NftBridgePolygonContractAddress = "0x8c9325064D374cFED65088c010270e9EA7C3eA73";
+        const NftBridgeEthContractAddress = "0xe469D7F98fA9c2DbB9FA5Eac0a88F94F1401C82e";
+        const NftBridgeBscContractAddress = "0x9C7651169c6E51a3F7Dd4208336eDA4FF6F40032";
+        const NftBridgePolygonContractAddress = "0x0Fe9fBBb69763C969ae618De55b049fB7d52Ec1A";
 
         console.log("wallet1.address ===> ", wallet1.address)
         console.log("wallet2.address ===> ", wallet2.address)

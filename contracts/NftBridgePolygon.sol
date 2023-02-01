@@ -7,11 +7,12 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
 
-contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage {
+contract NftBridgePolygon is Ownable, Pausable, ReentrancyGuard, ERC721, ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
 
@@ -34,7 +35,7 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
         address tokenAddress,
         bytes32 hash,
         bytes memory signature
-    ) payable external nonReentrant {
+    ) payable external whenNotPaused nonReentrant {
         require(msg.value != 0, "Value should not be 0");
         require(msg.value == smartContractFees, "Fees should be equal");
         require(sourceChain == SourceChain.POLYGON && destinationChain != DestinationChain.POLYGON, "Invalid chain");
@@ -54,7 +55,7 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
     function transferNft(
         address recipient,
         string memory uri
-    ) external onlyOwner nonReentrant {
+    ) external onlyOwner whenNotPaused nonReentrant {
         require(recipient != address(0), "Address cannot be 0");
         emit NftTransferedToDestinationChain(recipient, uri);
         safeMint(recipient, uri);
@@ -102,9 +103,28 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
         return ECDSA.recover(messageDigest, signature);
     }
 
-    function withdraw(address payable recipient) external onlyOwner {
+    function withdrawNft(
+        uint256 tokenId,
+        address recipient,
+        address tokenAddress
+    ) external onlyOwner nonReentrant {
+        ERC721 token;
+        token = ERC721(tokenAddress);
+        require(token.ownerOf(tokenId) == address(this), "Only the owner transfer the NFT");
+        ERC721(tokenAddress).transferFrom(address(this), recipient, tokenId);
+    }
+
+    function withdraw(address payable recipient) external onlyOwner nonReentrant {
         require(recipient != address(0), "Address cannot be zero");
         recipient.transfer(address(this).balance);
+    }
+
+    function pause() external onlyOwner{
+        _pause();
+    }
+
+    function unpause() external onlyOwner {
+        _unpause();
     }
 
     function changeSmartContractFees(uint256 newSmartContractFees) external onlyOwner returns(uint256) {
@@ -116,5 +136,4 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
     function getSmartContractFees() external view returns(uint256) {
         return smartContractFees;
     }
-
 }
