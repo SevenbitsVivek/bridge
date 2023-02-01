@@ -8,7 +8,7 @@ const bridgeApi = async () => {
         const ethProvider = new ethers.providers.WebSocketProvider('wss://goerli.infura.io/ws/v3/6ce920f452c84ea1b3379b187e05ade6');
         const bscProvider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-2-s3.binance.org:8545/');
         const polygonProvider = new ethers.providers.JsonRpcProvider('https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78');
-        // const polygonProvider = new ethers.providers.JsonRpcProvider('HTTP://127.0.0.1:8545');
+        // const localhostProvider = new ethers.providers.JsonRpcProvider('HTTP://127.0.0.1:8545');
 
         const privateKey1 = "c244b6e8ae351e71fa353515c55a4e0be82fb5bf7186c18419f89421805f74b7";
         const privateKey2 = "de3498d1ef1ee0f3afd9ce6868f9912e52bbac7c8cf6bc43e169bbb80a70bc86";
@@ -18,9 +18,9 @@ const bridgeApi = async () => {
         const wallet3 = new ethers.Wallet(privateKey2, polygonProvider);
         // const wallet3 = new ethers.Wallet("0x0aed729fd357dc5fc2e5823f8a9a280204f3e1fbdf7ed3947e281aaef0e45457", polygonProvider);
 
-        const NftBridgeEthContractAddress = "0x89A84a45eF2508f755621D4Caa369796c46B0591";
-        const NftBridgeBscContractAddress = "0x5A8ef25FCD0D39eBDf009789848E58C72428bc8E";
-        const NftBridgePolygonContractAddress = "0x752707dfAd1D1eb602656308e097Ff239d4D6EA8";
+        const NftBridgeEthContractAddress = "0x03235Bd3859D758B11549977A9D81771311a8f08";
+        const NftBridgeBscContractAddress = "0xa153DE1FFeAfef5ADe758d0e268247da9BDFb697";
+        const NftBridgePolygonContractAddress = "0x8c9325064D374cFED65088c010270e9EA7C3eA73";
 
         console.log("wallet1.address ===> ", wallet1.address)
         console.log("wallet2.address ===> ", wallet2.address)

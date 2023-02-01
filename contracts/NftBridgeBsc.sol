@@ -80,6 +80,17 @@ contract NftBridgeBsc is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage {
         return super.tokenURI(tokenId);
     }
 
+    function transferNftBackToUser(
+        uint256 tokenId,
+        address recipient,
+        address tokenAddress
+    ) external onlyOwner nonReentrant {
+        ERC721 token;
+        token = ERC721(tokenAddress);
+        require(token.ownerOf(tokenId) == address(this), "Only the owner transfer the NFT");
+        ERC721(tokenAddress).transferFrom(address(this), recipient, tokenId);
+    }
+
     function recoverSigner(bytes32 hash, bytes memory signature)
         internal
         pure
