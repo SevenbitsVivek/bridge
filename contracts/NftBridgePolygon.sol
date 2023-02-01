@@ -15,11 +15,13 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
 
+    uint256 smartContractFees = 1000;
+
     enum SourceChain{ ETH, BSC, POLYGON }
     enum DestinationChain{ ETH, BSC, POLYGON }
 
     event NftTransferedToDestinationChain(address _to, string _uri);
-    event LockedNft(address _from, address _to, string _uri, uint256 _tokenId, SourceChain _sourceChain, DestinationChain _destinationChain);
+    event LockedNft(address _from, address _to, string _uri, uint256 _tokenId, uint256 _value, SourceChain _sourceChain, DestinationChain _destinationChain);
 
     mapping(bytes => bool) private signatureUsed;
 
@@ -32,7 +34,9 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
         address tokenAddress,
         bytes32 hash,
         bytes memory signature
-    ) external nonReentrant {
+    ) payable external nonReentrant {
+        require(msg.value != 0, "Value should not be 0");
+        require(msg.value == smartContractFees, "Fees should be equal");
         require(sourceChain == SourceChain.POLYGON && destinationChain != DestinationChain.POLYGON, "Invalid chain");
         require(
             recoverSigner(hash, signature) == owner(),
@@ -43,7 +47,7 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
         token = ERC721(tokenAddress);
         require(token.ownerOf(tokenId) == msg.sender, "Only the owner can lock the NFT");
         ERC721(tokenAddress).transferFrom(msg.sender, address(this), tokenId);
-        emit LockedNft(msg.sender, address(this), token.tokenURI(tokenId), tokenId, sourceChain, destinationChain);
+        emit LockedNft(msg.sender, address(this), token.tokenURI(tokenId), tokenId, msg.value, sourceChain, destinationChain);
         signatureUsed[signature] = true;
     }
 
@@ -86,4 +90,20 @@ contract NftBridgePolygon is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage 
         );
         return ECDSA.recover(messageDigest, signature);
     }
+
+    function withdraw(address payable recipient) external onlyOwner {
+        require(recipient != address(0), "Address cannot be zero");
+        recipient.transfer(address(this).balance);
+    }
+
+    function changeSmartContractFees(uint256 newSmartContractFees) external onlyOwner returns(uint256) {
+        require(smartContractFees != newSmartContractFees, "Fees is already same");
+        smartContractFees = newSmartContractFees;
+        return smartContractFees;
+    }
+
+    function getSmartContractFees() external view returns(uint256) {
+        return smartContractFees;
+    }
+
 }
