@@ -16,13 +16,13 @@ module.exports = {
     goerli: {
       url: `https://goerli.infura.io/v3/681d784bc2db408b8aa49ec6b887d47a`,
       gas: 300000000,
-      accounts: ['c244b6e8ae351e71fa353515c55a4e0be82fb5bf7186c18419f89421805f74b7'],
+      accounts: ['de3498d1ef1ee0f3afd9ce6868f9912e52bbac7c8cf6bc43e169bbb80a70bc86'],
     },
     //Polygon Testnet
     matic: {
       url: "https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78",
       gas: 3000000000,
-      accounts: ['c244b6e8ae351e71fa353515c55a4e0be82fb5bf7186c18419f89421805f74b7']
+      accounts: ['de3498d1ef1ee0f3afd9ce6868f9912e52bbac7c8cf6bc43e169bbb80a70bc86']
     },
     //ganache
     localhost: {
@@ -34,12 +34,12 @@ module.exports = {
 
   etherscan: {
     // polygon apiKey
-    // apiKey: "61NXGEUMZJGEXU5ZTZQN8ZGHRBC8PAVSFN"
-    apiKey: {
-      bscTestnet: "7FH7WAR3SHRS7UDI2YZQWVR5F1SJ3PJBI2",
-      goerli: "JB7KZVSGD7Z4AGJGEYITX4WY1W5V4I5D1K",
-      // mainnet: "JB7KZVSGD7Z4AGJGEYITX4WY1W5V4I5D1K"
-    }
+    apiKey: "61NXGEUMZJGEXU5ZTZQN8ZGHRBC8PAVSFN"
+    // apiKey: {
+    //   bscTestnet: "7FH7WAR3SHRS7UDI2YZQWVR5F1SJ3PJBI2",
+    //   goerli: "JB7KZVSGD7Z4AGJGEYITX4WY1W5V4I5D1K",
+    //   // mainnet: "JB7KZVSGD7Z4AGJGEYITX4WY1W5V4I5D1K"
+    // }
   },
   settings: {
     optimizer: {

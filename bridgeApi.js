@@ -7,20 +7,21 @@ const bridgeApi = async () => {
     try {
         const ethProvider = new ethers.providers.WebSocketProvider('wss://goerli.infura.io/ws/v3/6ce920f452c84ea1b3379b187e05ade6');
         const bscProvider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-2-s3.binance.org:8545/');
-        // const polygonProvider = new ethers.providers.JsonRpcProvider('https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78');
-        const polygonProvider = new ethers.providers.JsonRpcProvider('HTTP://127.0.0.1:8545');
+        const polygonProvider = new ethers.providers.JsonRpcProvider('https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78');
+        // const polygonProvider = new ethers.providers.JsonRpcProvider('HTTP://127.0.0.1:8545');
 
-        const privateKey = "c244b6e8ae351e71fa353515c55a4e0be82fb5bf7186c18419f89421805f74b7";
+        const privateKey1 = "c244b6e8ae351e71fa353515c55a4e0be82fb5bf7186c18419f89421805f74b7";
+        const privateKey2 = "de3498d1ef1ee0f3afd9ce6868f9912e52bbac7c8cf6bc43e169bbb80a70bc86";
 
-        const wallet1 = new ethers.Wallet(privateKey, ethProvider);
-        const wallet2 = new ethers.Wallet(privateKey, bscProvider);
-        // const wallet3 = new ethers.Wallet(privateKey, polygonProvider);
-        const wallet3 = new ethers.Wallet("0x0aed729fd357dc5fc2e5823f8a9a280204f3e1fbdf7ed3947e281aaef0e45457", polygonProvider);
+        const wallet1 = new ethers.Wallet(privateKey1, ethProvider);
+        const wallet2 = new ethers.Wallet(privateKey1, bscProvider);
+        const wallet3 = new ethers.Wallet(privateKey2, polygonProvider);
+        // const wallet3 = new ethers.Wallet("0x0aed729fd357dc5fc2e5823f8a9a280204f3e1fbdf7ed3947e281aaef0e45457", polygonProvider);
 
-        const NftBridgeEthContractAddress = "0x8eD50Cd9d0b74c5Ddf9F2fd18bb1C3b5Aca6A498";
-        const NftBridgeBscContractAddress = "0x9358b3BD8956dD404367AB4f48242b96e648174f";
-        // const NftBridgePolygonContractAddress = "0x5218C6D3e94156dC2e9986e328e785D3C3686AC5";
-        const NftBridgePolygonContractAddress = "0xE7f1BEfeafD7FcD6f2478BdaBEbE1429aAfC6905";
+        const NftBridgeEthContractAddress = "0x8AE044fECd9fB3e83366dcc2D1E53e0177FA8A61";
+        const NftBridgeBscContractAddress = "0x8b57BE746743a8aFce5AD7A69dA338805e17432b";
+        const NftBridgePolygonContractAddress = "0x8747EA20CefB19dfF92a41D8E13Cd28376268498";
+        // const NftBridgePolygonContractAddress = "0xE7f1BEfeafD7FcD6f2478BdaBEbE1429aAfC6905";
 
         console.log("wallet1.address ===> ", wallet1.address)
         console.log("wallet2.address ===> ", wallet2.address)
@@ -57,9 +58,9 @@ const bridgeApi = async () => {
             }
             console.log(JSON.stringify(NftTransferedEvent, null, 5))
             if (sourceChain == 0 && destinationChain == 1) {
-                nftBridgeBsc.transferNft(from, uri, tokenId, { from: wallet2.address, gasLimit: 1000000 });
+                nftBridgeBsc.transferNft(from, uri, { gasLimit: 1000000 });
             } else if (sourceChain == 0 && destinationChain == 2) {
-                nftBridgePolygon.transferNft(from, uri, tokenId, { from: wallet3.address, gasLimit: 1000000 });
+                nftBridgePolygon.transferNft(from, uri, { gasLimit: 1000000 });
             }
         })
 
@@ -76,9 +77,9 @@ const bridgeApi = async () => {
             }
             console.log(JSON.stringify(NftTransferedEvent, null, 5))
             if (sourceChain == 1 && destinationChain == 0) {
-                nftBridgeEth.transferNft(from, uri, tokenId, { from: wallet1.address, gasLimit: 1000000 });
+                nftBridgeEth.transferNft(from, uri, { gasLimit: 1000000 });
             } else if (sourceChain == 1 && destinationChain == 2) {
-                nftBridgePolygon.transferNft(from, uri, tokenId, { from: wallet3.address, gasLimit: 1000000 });
+                nftBridgePolygon.transferNft(from, uri, { gasLimit: 1000000 });
             }
         })
 
@@ -95,9 +96,9 @@ const bridgeApi = async () => {
             }
             console.log(JSON.stringify(NftTransferedEvent, null, 5))
             if (sourceChain == 2 && destinationChain == 0) {
-                nftBridgeEth.transferNft(from, uri, tokenId, { from: wallet1.address, gasLimit: 1000000 });
+                nftBridgeEth.transferNft(from, uri, { gasLimit: 1000000 });
             } else if (sourceChain == 2 && destinationChain == 1) {
-                nftBridgeBsc.transferNft(from, uri, tokenId, { from: wallet2.address, gasLimit: 1000000 });
+                nftBridgeBsc.transferNft(from, uri, { gasLimit: 1000000 });
             }
         })
     } catch (error) {

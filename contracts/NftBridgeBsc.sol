@@ -5,21 +5,25 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
 
 contract NftBridgeBsc is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage {
+    using Counters for Counters.Counter;
+    Counters.Counter private _tokenIdCounter;
 
     enum SourceChain{ ETH, BSC, POLYGON }
     enum DestinationChain{ ETH, BSC, POLYGON }
 
-    event NftTransferedToDestinationChain(address _to, uint256 indexed _tokenId, string _uri);
+    event NftTransferedToDestinationChain(address _to, string _uri);
     event LockedNft(address _from, address _to, string _uri, uint256 _tokenId, SourceChain _sourceChain, DestinationChain _destinationChain);
 
     mapping(bytes => bool) private signatureUsed;
 
-    constructor() ERC721("NftBridgeBSC", "NBBSC") {}
+    constructor() ERC721("NftBridgeBsc", "NBBSC") {}
 
     function lockNft(
         SourceChain sourceChain,
@@ -45,19 +49,17 @@ contract NftBridgeBsc is Ownable, ReentrancyGuard, ERC721, ERC721URIStorage {
 
     function transferNft(
         address recipient,
-        string memory uri,
-        uint256 tokenId
+        string memory uri
     ) external onlyOwner nonReentrant {
         require(recipient != address(0), "Address cannot be 0");
-        require(!_exists(tokenId), "Nft already exists");
-        emit NftTransferedToDestinationChain(recipient, tokenId, uri);
-        safeMint(recipient, tokenId, uri);
+        emit NftTransferedToDestinationChain(recipient, uri);
+        safeMint(recipient, uri);
     }
 
-    function safeMint(address to, uint256 tokenId, string memory uri)
-        internal
-    {
-        _safeMint(to, tokenId);
+    function safeMint(address recipient, string memory uri) internal onlyOwner {
+        uint256 tokenId = _tokenIdCounter.current();
+        _tokenIdCounter.increment();
+        _safeMint(recipient, tokenId);
         _setTokenURI(tokenId, uri);
     }
 
